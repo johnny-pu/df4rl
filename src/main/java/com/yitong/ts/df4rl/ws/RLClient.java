@@ -18,7 +18,7 @@ public class RLClient {
     private String code;       //鉴权Code
     private String password;   //鉴权密码
 
-    private DynamicClientFactory clientFactory;
+    private Client client;
 
 
     public void setCode(String code) {
@@ -37,10 +37,22 @@ public class RLClient {
      */
     public static RLClient createClient(String wsdlUrl) {
         RLClient rlClient = new RLClient();
-        rlClient.clientFactory = JaxWsDynamicClientFactory.newInstance();
-        Client client = rlClient.clientFactory.createClient(wsdlUrl);
-        client.getOutInterceptors().add();
+        DynamicClientFactory clientFactory = JaxWsDynamicClientFactory.newInstance();
+        Client client = clientFactory.createClient(wsdlUrl);
+        client.getOutInterceptors().add(new BankSoapHeader(rlClient.code, rlClient.password));
+        rlClient.client = client;
         return rlClient;
+    }
+
+    /**
+     * 调用服务端方法
+     * @param method 方法名
+     * @param params 参数列表
+     * @return 执行结果
+     * @throws Exception
+     */
+    public Object[] invoke(String method, Object... params) throws Exception {
+        return this.client.invoke(method, params);
     }
 
 }
