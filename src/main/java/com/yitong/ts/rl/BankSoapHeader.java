@@ -1,13 +1,15 @@
-package com.yitong.ts.df4rl.ws;
+package com.yitong.ts.rl;
 
 import org.apache.cxf.binding.soap.SoapHeader;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.binding.soap.interceptor.AbstractSoapInterceptor;
 import org.apache.cxf.helpers.DOMUtils;
+import org.apache.cxf.helpers.XMLUtils;
 import org.apache.cxf.interceptor.Fault;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import javax.annotation.PostConstruct;
 import javax.xml.namespace.QName;
 import java.util.Hashtable;
 
@@ -33,20 +35,27 @@ public class BankSoapHeader extends AbstractSoapInterceptor {
     @Override
     public void handleMessage(SoapMessage soapMessage) throws Fault {
         QName qn = new QName(qnValue);
+
+        //注入SoapHeader
+        SoapHeader soapHeader = new SoapHeader(qn, this.createHeader());
+        soapMessage.getHeaders().add(soapHeader);
+
+    }
+
+
+    protected Element createHeader() {
         Document doc = DOMUtils.createDocument();
 
         Element root = doc.createElementNS(this.qname, header_el_name);
 
-        //创建soapheader信息节点
+        //创建soapheader节点
         for (String key : attributes.keySet()) {
-            Element el = doc.createElement("key");
+            Element el = doc.createElement(key);
             el.setTextContent(attributes.get(key));
             root.appendChild(el);
         }
-
-        //注入SoapHeader
-        SoapHeader soapHeader = new SoapHeader(qn, root);
-        soapMessage.getHeaders().add(soapHeader);
+        XMLUtils.printDOM(root);
+        return root;
 
     }
 
