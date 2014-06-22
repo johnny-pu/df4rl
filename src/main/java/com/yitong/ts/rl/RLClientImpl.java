@@ -1,15 +1,11 @@
 package com.yitong.ts.rl;
 
 import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.endpoint.dynamic.DynamicClientFactory;
-import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.Hashtable;
 
 /**
  * Webservice客户端<br/>
@@ -54,13 +50,13 @@ public class RLClientImpl implements RLClient {
     public void init() {
         logger.info("初始化创建webserver客户端(url:{})", this.wsdlUrl);
         RLClientImpl rlClient = new RLClientImpl();
-        DynamicClientFactory clientFactory = JaxWsDynamicClientFactory.newInstance();
-        Client client = clientFactory.createClient(wsdlUrl);
-        Hashtable<String, String> attributes = new Hashtable<String, String>();
-        attributes.put(this.codeAttributeName, this.code);
-        attributes.put(this.passwordAttributeName, this.password);
-        client.getOutInterceptors().add(new BankSoapHeader(this.qName, attributes));
-        rlClient.client = client;
+//        DynamicClientFactory clientFactory = JaxWsDynamicClientFactory.newInstance();
+//        Client client = clientFactory.createClient(wsdlUrl);
+//        Hashtable<String, String> attributes = new Hashtable<String, String>();
+//        attributes.put(this.codeAttributeName, this.code);
+//        attributes.put(this.passwordAttributeName, this.password);
+//        client.getOutInterceptors().add(new BankSoapHeader(this.qName, attributes));
+//        rlClient.client = client;
     }
 
     /**

@@ -14,6 +14,7 @@ import javax.xml.ws.Holder;
 public class WebServiceTest {
 
     @Test
+<<<<<<< HEAD
     public void testSimpleService() throws Exception {
         ClientProxyFactoryBean factoryBean=new JaxWsProxyFactoryBean();
         factoryBean.setServiceClass(WebServiceSoap.class);
@@ -61,6 +62,10 @@ public class WebServiceTest {
         MethodRetObjResponse.MethodRetObjResult result = client.methodRetObj();
         for(Object obj:result.getContent())
             System.out.println(obj);
+=======
+    public void testSimpleService(){
+
+>>>>>>> origin/master
     }
 
 }

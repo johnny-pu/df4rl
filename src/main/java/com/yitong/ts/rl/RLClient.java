@@ -28,11 +28,10 @@ public interface RLClient {
      * 获取客户信息及欠费信息
      *
      * @param nCardId 客户卡号
-     * @param oMsg    输出参数
      * @return Object
      * @throws Exception
      */
-    public Object getCustInfo(String nCardId, String oMsg) throws Exception;
+    public Object getCustInfo(String nCardId) throws Exception;
 
 
     /**
@@ -45,13 +44,12 @@ public interface RLClient {
      * @param nMoney        缴费金额
      * @param nMethod       缴费方式(20-现金，22-刷卡)
      * @param nBankSerialNo 银行交易流水号
-     * @param oMsg          输出参数
      * @return Object
      * @throws Exception
      */
     public Object custChange(String nCustId, String nYear, String nInvoiceCode,
                              String nInvoiceName, double nMoney, String nMethod,
-                             String nBankSerialNo, String oMsg)
+                             String nBankSerialNo)
             throws Exception;
 
     /**

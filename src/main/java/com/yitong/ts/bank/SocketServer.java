@@ -9,6 +9,7 @@ import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,9 @@ public class SocketServer extends IoHandlerAdapter {
     private String encoding = "UTF-8";//socket报文编码
     @Value("${bank.socket.idle}")
     private Integer idle = 15; //socket连接最大闲置时长(秒)
+
+    @Autowired
+    private RequestHandler requestHandler;
 
     /**
      * 初始化，启动Socket服务
@@ -53,7 +57,7 @@ public class SocketServer extends IoHandlerAdapter {
     @Override
     public void sessionOpened(IoSession session) throws Exception {
         InetSocketAddress remoteAddress = (InetSocketAddress) session.getRemoteAddress();
-        logger.info("接收到客户端连接:{}。", remoteAddress.getAddress().getHostAddress());
+        logger.info("与客户端({})创建连接。", remoteAddress.getAddress().getHostAddress());
     }
 
     @Override
@@ -79,6 +83,9 @@ public class SocketServer extends IoHandlerAdapter {
     public void messageReceived(IoSession session, Object message) throws Exception {
         InetSocketAddress remoteAddress = (InetSocketAddress) session.getRemoteAddress();
         logger.info("接受到客户端({})发送的数据。", remoteAddress.getAddress().getHostAddress());
-        //TODO 报文接收处理
+        if (message != null) {
+            String responseMsg = this.requestHandler.handle((String) message);
+            session.write(responseMsg);
+        }
     }
 }
