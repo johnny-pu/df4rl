@@ -83,14 +83,14 @@ public class RLClientImpl implements RLClient {
     }
 
     @Override
-    public Object getCustInfo(String nCardId, String oMsg) throws Exception {
+    public Object getCustInfo(String nCardId) throws Exception {
         return null;
     }
 
     @Override
     public Object custChange(String nCustId, String nYear, String nInvoiceCode,
                              String nInvoiceName, double nMoney, String nMethod,
-                             String nBankSerialNo, String oMsg)
+                             String nBankSerialNo)
             throws Exception {
         return null;
     }

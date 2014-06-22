@@ -1,11 +1,20 @@
 package com.yitong.ts.bank;
 
+import com.ctc.wstx.util.StringUtil;
 import com.yitong.ts.rl.RLClient;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Document;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+import java.io.ByteArrayInputStream;
 
 /**
  * 客户端请求处理接口实现
@@ -17,6 +26,7 @@ public class RequestHandlerImpl implements RequestHandler {
     private Logger logger = LoggerFactory.getLogger(RequestHandlerImpl.class);
 
     private final static String separator = "\\|";
+    private final static String fun_getinvoiceNo = "GetInvoiceNo";
 
     @Autowired
     private RLClient rlClient;
@@ -24,7 +34,19 @@ public class RequestHandlerImpl implements RequestHandler {
     @Override
     public String handle(String message) {
         try {
-
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            builderFactory.setNamespaceAware(true);
+            DocumentBuilder builder = builderFactory.newDocumentBuilder();
+            ByteArrayInputStream is = new ByteArrayInputStream(message.getBytes());
+            Document doc = builder.parse(is);
+            XPathFactory xPathFactory =XPathFactory.newInstance();
+            XPath xPath = xPathFactory.newXPath();
+            String functionName = (xPath.compile("/WEBSERVICE/BODY/FunctionName/text()").evaluate(doc, XPathConstants.STRING)).toString();
+            if(StringUtils.isBlank(functionName))
+                throw new Exception("客户端发送的报文未正确设置'FunctionName'");
+            if(fun_getinvoiceNo.equals(functionName)){
+                return this.getInvoiceNo();
+            }
         } catch (Exception e) {
             return this.errorHandler(e);
         }
