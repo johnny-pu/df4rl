@@ -1,5 +1,6 @@
 package com.yitong.ts.bank;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
@@ -81,11 +82,13 @@ public class SocketServer extends IoHandlerAdapter {
 
     @Override
     public void messageReceived(IoSession session, Object message) throws Exception {
+        if (message != null || StringUtils.isBlank((String) message))
+            return;
         InetSocketAddress remoteAddress = (InetSocketAddress) session.getRemoteAddress();
-        logger.info("接受到客户端({})发送的数据。", remoteAddress.getAddress().getHostAddress());
-        if (message != null) {
-            String responseMsg = this.requestHandler.handle((String) message);
-            session.write(responseMsg);
-        }
+        String address = remoteAddress.getAddress().getHostAddress();
+        logger.info("接受到客户端({})发送的数据。", address);
+        String responseMsg = this.requestHandler.handle((String) message);
+        logger.info("响应客户端({})请求，{}", address, responseMsg);
+        session.write(responseMsg);
     }
 }

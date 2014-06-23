@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<WEBSERVICE>
+    <HEAD>
+        <RspCode></RspCode>
+        <RspMsg></RspMsg>
+    </HEAD>
+    <BODY>
+        <ResultAbout>${ResultAbout}</ResultAbout>
+        <custBaseInfo>
+            <INVOICE_CODE>${InvoiceCode}</INVOICE_CODE>
+            <CUST_NAME>${CustName}</CUST_NAME>
+            <BUSINESS_OFFICE>${BusinessOffice}</BUSINESS_OFFICE>
+            <HEATING_STATIONS_CODE>${HeatingStationsCode}</HEATING_STATIONS_CODE>
+            <HEATING_STATIONS_NAME>${HeatingStationsCode}</HEATING_STATIONS_NAME>
+            <HEATING_UPTOWN>${HeadtingUptown}</HEATING_UPTOWN>
+            <CUST_ADDR>${CustAddress}</CUST_ADDR>
+            <ARREARAGE>${Arrearage}</ARREARAGE>
+            <COLLECTING_COMPANY>${CollectingCompany}</COLLECTING_COMPANY>
+            <PAYEE>${Payee}</PAYEE>
+        </custBaseInfo>
+        <custArrearInfo>
+            <ARREAR_YEAR>${ArrearYear}</ARREAR_YEAR>
+            <HEATING_TYPE>${HeatingType}</HEATING_TYPE>
+            <HEATING_PRICE>${HeatingPrice}</HEATING_PRICE>
+            <HEATING_MONTH>${HeatingMonth}</HEATING_MONTH>
+            <HEATING_AREA>${HeatingArea}</HEATING_AREA>
+            <COST_AMOUNT>${CostAmount}</COST_AMOUNT>
+            <CHANGE_PEASON>${ChangePeason}</CHANGE_PEASON>
+            <CHANGE_AMOUNT>${ChangeAmount}</CHANGE_AMOUNT>
+        </custArrearInfo>
+    </BODY>
+</WEBSERVICE>
